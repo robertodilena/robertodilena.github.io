@@ -14,23 +14,30 @@
     return '';
   }
 
+  /** Link alla home risolto rispetto alla pagina corrente (affidabile anche con sottocartelle / GitHub Pages). */
+  function homeHref(prefix) {
+    var rel = prefix + 'index.html';
+    try {
+      return new URL(rel, window.location.href).href;
+    } catch (e) {
+      return rel;
+    }
+  }
+
   function navHTML(prefix) {
-    var homeHref = prefix + 'index.html';
-    var projectsHref = prefix + 'projects/index.html';
+    var home = homeHref(prefix);
     var linkedinHref = LINKEDIN;
     return (
       '<div class="nav-inner">' +
-      '<a class="logo logo--brand" href="' +
-      homeHref +
-      '"><span class="logo__mark">RDL</span></a>' +
+      '<a class="logo logo--brand" id="site-logo" href="' +
+      home +
+      '" aria-label="Vai alla home">' +
+      '<span class="logo__mark">RDL</span></a>' +
       '<div class="nav-end">' +
       '<nav class="nav-links" aria-label="Principale">' +
       '<a data-nav="home" href="' +
-      homeHref +
+      home +
       '">Home</a>' +
-      '<a data-nav="projects" href="' +
-      projectsHref +
-      '">Progetti</a>' +
       '</nav>' +
       '<a class="nav-linkedin" href="' +
       linkedinHref +
@@ -59,13 +66,10 @@
     );
   }
 
-  /** /projects/* prima della home: altrimenti projects/index.html matcha come "home" */
   function setActiveNav() {
     var path = window.location.pathname || '';
     var key = 'home';
-    if (/\/projects(\/.*)?$/.test(path)) {
-      key = 'projects';
-    } else if (/index\.html$/.test(path) || /\/$/.test(path) || path === '') {
+    if (/index\.html$/.test(path) || /\/$/.test(path) || path === '' || /\/projects(\/.*)?$/.test(path)) {
       key = 'home';
     }
     document.querySelectorAll('[data-nav]').forEach(function (a) {

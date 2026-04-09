@@ -1,40 +1,82 @@
-/** Sezione progetti home: slice featured, PREVIEW_MAX, CTA verso projects/index.html. */
+/** Home cinematic: 5 progetti featured, markup card stack + evento per GSAP. */
 (function () {
   'use strict';
 
-  var PREVIEW_MAX = 3;
+  var PREVIEW_MAX = 5;
+
+  function pad2(n) {
+    return n < 10 ? '0' + n : String(n);
+  }
 
   function render(list, container) {
     container.innerHTML = '';
     list.forEach(function (p, index) {
       var article = document.createElement('article');
-      article.className = 'card card--showcase reveal-on-scroll';
-      article.style.setProperty('--reveal-delay', index * 80 + 'ms');
+      article.className = 'cine-project-card';
+      article.setAttribute('data-cursor-hover', '');
+      article.setAttribute('data-project-index', String(index));
+
+      var glow = document.createElement('div');
+      glow.className = 'cine-project-card__glow';
+      glow.setAttribute('aria-hidden', 'true');
+
+      var surface = document.createElement('div');
+      surface.className = 'cine-project-card__surface';
+
+      var inner = document.createElement('div');
+      inner.className = 'cine-project-card__inner';
+
+      var idx = document.createElement('span');
+      idx.className = 'cine-project-card__index';
+      idx.textContent = pad2(index + 1) + ' / ' + pad2(list.length);
 
       var icon = document.createElement('div');
-      icon.className = 'card-icon';
+      icon.className = 'cine-project-card__icon';
       icon.setAttribute('aria-hidden', 'true');
       icon.textContent = p.icon || '📁';
 
       var h3 = document.createElement('h3');
+      h3.className = 'cine-project-card__title';
       h3.textContent = p.title || 'Senza titolo';
 
       var para = document.createElement('p');
+      para.className = 'cine-project-card__summary';
       para.textContent = p.summary || '';
 
-      var footer = document.createElement('div');
-      footer.className = 'card-footer';
-      var a = document.createElement('a');
-      a.href = 'projects/project.html?id=' + encodeURIComponent(p.id);
-      a.textContent = 'Scheda progetto';
-      footer.appendChild(a);
+      var tags = document.createElement('div');
+      tags.className = 'cine-project-card__tags';
+      (p.tags || []).slice(0, 8).forEach(function (t) {
+        var s = document.createElement('span');
+        s.className = 'cine-project-card__tag';
+        s.textContent = t;
+        tags.appendChild(s);
+      });
 
-      article.appendChild(icon);
-      article.appendChild(h3);
-      article.appendChild(para);
-      article.appendChild(footer);
+      var footer = document.createElement('div');
+      footer.className = 'cine-project-card__footer';
+      var a = document.createElement('a');
+      a.className = 'cine-project-card__link';
+      a.href = 'projects/project.html?id=' + encodeURIComponent(p.id);
+      a.setAttribute('data-cursor-hover', '');
+      a.textContent = 'Apri la scheda →';
+
+      inner.appendChild(idx);
+      inner.appendChild(icon);
+      inner.appendChild(h3);
+      inner.appendChild(para);
+      if (tags.childNodes.length) inner.appendChild(tags);
+      footer.appendChild(a);
+      inner.appendChild(footer);
+
+      surface.appendChild(glow);
+      surface.appendChild(inner);
+      article.appendChild(surface);
       container.appendChild(article);
     });
+  }
+
+  function dispatchReady() {
+    document.dispatchEvent(new CustomEvent('cinematic:projects-ready', { bubbles: true }));
   }
 
   function init() {
@@ -52,49 +94,20 @@
           return oa - ob;
         });
         if (featured.length === 0) {
-          container.innerHTML = '<p class="lead">Nessun progetto in evidenza al momento.</p>';
+          container.innerHTML =
+            '<p class="cine-projects__empty">Nessun progetto in evidenza al momento.</p>';
+          dispatchReady();
           return;
         }
 
-        var prevMore = container.nextElementSibling;
-        if (prevMore && prevMore.classList && prevMore.classList.contains('home-showcase__more')) {
-          prevMore.remove();
-        }
-
-        var total = featured.length;
         var preview = featured.slice(0, PREVIEW_MAX);
         render(preview, container);
-
-        if (total > PREVIEW_MAX) {
-          var more = document.createElement('div');
-          more.className = 'home-showcase__more reveal-on-scroll';
-          more.style.setProperty('--reveal-delay', preview.length * 80 + 40 + 'ms');
-
-          var dots = document.createElement('span');
-          dots.className = 'home-showcase__ellipsis';
-          dots.setAttribute('aria-hidden', 'true');
-          dots.textContent = '···';
-
-          var link = document.createElement('a');
-          link.className = 'btn btn-ghost home-showcase__all-link';
-          link.href = 'projects/index.html';
-          link.setAttribute('aria-label', 'Apri l’elenco degli altri progetti');
-          link.appendChild(document.createTextNode('Altri progetti'));
-          var arr = document.createElement('span');
-          arr.className = 'home-showcase__more-arrow';
-          arr.setAttribute('aria-hidden', 'true');
-          arr.textContent = ' →';
-          link.appendChild(arr);
-
-          more.appendChild(dots);
-          more.appendChild(link);
-          container.insertAdjacentElement('afterend', more);
-        }
-
-        if (window.ScrollReveal) window.ScrollReveal.refresh();
+        dispatchReady();
       })
       .catch(function () {
-        container.innerHTML = '<p class="lead">Impossibile caricare i progetti. Ricarica la pagina.</p>';
+        container.innerHTML =
+          '<p class="cine-projects__empty">Impossibile caricare i progetti. Ricarica la pagina.</p>';
+        dispatchReady();
       });
   }
 

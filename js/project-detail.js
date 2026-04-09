@@ -2,6 +2,15 @@
 (function () {
   'use strict';
 
+  function notifyReady(detail) {
+    document.dispatchEvent(
+      new CustomEvent('project-detail:ready', {
+        bubbles: true,
+        detail: detail || {},
+      })
+    );
+  }
+
   function getQueryId() {
     var params = new URLSearchParams(window.location.search);
     return (params.get('id') || '').trim();
@@ -55,7 +64,7 @@
       document.title = 'Progetto non trovato | Roberto Di Lena';
       if (root) root.hidden = true;
       if (missing) missing.hidden = false;
-      if (window.ScrollReveal) window.ScrollReveal.refresh();
+      notifyReady({ missing: true });
       return;
     }
 
@@ -65,7 +74,7 @@
           document.title = 'Progetto non trovato | Roberto Di Lena';
           if (root) root.hidden = true;
           if (missing) missing.hidden = false;
-          if (window.ScrollReveal) window.ScrollReveal.refresh();
+          notifyReady({ missing: true });
           return;
         }
 
@@ -85,6 +94,13 @@
             heroImg.src = p.heroImage;
             heroImg.alt = p.heroImageAlt || '';
             heroWrap.hidden = false;
+            heroImg.addEventListener(
+              'load',
+              function () {
+                if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+              },
+              { once: true }
+            );
           } else {
             heroWrap.hidden = true;
           }
@@ -98,7 +114,7 @@
           tagsRoot.innerHTML = '';
           (p.tags || []).forEach(function (t) {
             var s = document.createElement('span');
-            s.className = 'tag badge';
+            s.className = 'cine-project-card__tag';
             s.textContent = t;
             tagsRoot.appendChild(s);
           });
@@ -120,24 +136,27 @@
           (p.body || []).forEach(function (paragraph) {
             appendBodyParagraph(bodyEl, paragraph);
           });
-          bodyEl.classList.add('reveal-on-scroll');
-          bodyEl.setAttribute('data-reveal-immediate', '');
-          bodyEl.setAttribute('data-reveal-delay', '200');
         }
 
-        if (window.ScrollReveal) window.ScrollReveal.refresh();
+        notifyReady({ missing: false, id: id });
       })
       .catch(function () {
         document.title = 'Progetto non trovato | Roberto Di Lena';
         if (root) root.hidden = true;
         if (missing) missing.hidden = false;
-        if (window.ScrollReveal) window.ScrollReveal.refresh();
+        notifyReady({ missing: true, error: true });
       });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  function scheduleInit() {
+    function run() {
+      init();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run);
+    } else {
+      setTimeout(run, 0);
+    }
   }
+  scheduleInit();
 })();

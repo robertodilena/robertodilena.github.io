@@ -928,15 +928,6 @@ main {
   margin-top: 0.4rem;
 }
 
-.project-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  min-width: 0;
-  overflow-x: hidden;
-  overflow-x: clip;
-}
-
 .project-row {
   display: grid;
   gap: 1rem;
