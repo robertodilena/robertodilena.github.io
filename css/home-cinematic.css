@@ -583,6 +583,8 @@
 /* html.cinematic-scroll disattiva scroll-behavior: smooth globale (conflitto con Lenis) */
 html.cinematic-scroll {
   scroll-behavior: auto !important;
+  /** Lascia al browser l’inerzia verticale su mobile (pan-y) senza bloccare lo slancio. */
+  touch-action: pan-y pinch-zoom;
 }
 
 .cine-projects__stack-wrap {

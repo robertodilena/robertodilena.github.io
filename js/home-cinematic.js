@@ -73,8 +73,21 @@
     );
   }
 
+  /**
+   * Lenis sostituisce lo scroll nativo: su touch va bene solo se disattivato o con syncTouch,
+   * altrimenti lo “slancio” (inerzia) si interrompe. Desktop: Lenis + syncTouch per eventuali hybrid.
+   */
+  function shouldUseLenis() {
+    if (reduced || typeof window.Lenis === 'undefined') return false;
+    if (window.matchMedia('(pointer: coarse)').matches) return false;
+    if (navigator.maxTouchPoints > 0 && window.matchMedia('(max-width: 1024px)').matches) {
+      return false;
+    }
+    return true;
+  }
+
   function initLenis() {
-    if (reduced || coarse || typeof window.Lenis === 'undefined') return null;
+    if (!shouldUseLenis()) return null;
     var LenisCtor = window.Lenis;
     var lenis;
     try {
@@ -85,8 +98,9 @@
         },
         smoothWheel: true,
         wheelMultiplier: 1.2,
-        touchMultiplier: 1.8,
-        syncTouch: false,
+        touchMultiplier: 1,
+        /** Necessario perché il touch non “tagli” l’inerzia rispetto allo scroll animato. */
+        syncTouch: true,
       });
     } catch (e) {
       return null;
