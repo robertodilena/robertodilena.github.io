@@ -73,35 +73,53 @@
     );
   }
 
-  /**
-   * Lenis sostituisce lo scroll nativo: su touch va bene solo se disattivato o con syncTouch,
-   * altrimenti lo “slancio” (inerzia) si interrompe. Desktop: Lenis + syncTouch per eventuali hybrid.
-   */
-  function shouldUseLenis() {
-    if (reduced || typeof window.Lenis === 'undefined') return false;
-    if (window.matchMedia('(pointer: coarse)').matches) return false;
-    if (navigator.maxTouchPoints > 0 && window.matchMedia('(max-width: 1024px)').matches) {
-      return false;
-    }
-    return true;
+  function isTouchLikeViewport() {
+    return (
+      window.matchMedia('(pointer: coarse)').matches ||
+      (navigator.maxTouchPoints > 0 && window.matchMedia('(max-width: 1024px)').matches)
+    );
   }
 
+  /**
+   * Lenis 1.x: non esiste `smoothTouch`; equivalgono syncTouch, syncTouchLerp, touchInertiaMultiplier (touchend).
+   */
   function initLenis() {
-    if (!shouldUseLenis()) return null;
+    if (reduced || typeof window.Lenis === 'undefined') return null;
     var LenisCtor = window.Lenis;
     var lenis;
-    try {
-      lenis = new LenisCtor({
+    var easing = function (t) {
+      return Math.min(1, 1.001 - Math.pow(2, -10 * t));
+    };
+    var opts;
+    if (isTouchLikeViewport()) {
+      opts = {
+        duration: 1.2,
+        easing: easing,
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        syncTouch: true,
+        syncTouchLerp: 0.12,
+        touchMultiplier: 1.5,
+        wheelMultiplier: 1.2,
+        lerp: 0.12,
+        touchInertiaMultiplier: 45,
+      };
+    } else {
+      opts = {
         duration: 0.55,
-        easing: function (t) {
-          return Math.min(1, 1.001 - Math.pow(2, -10 * t));
-        },
+        easing: easing,
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
         smoothWheel: true,
         wheelMultiplier: 1.2,
         touchMultiplier: 1,
-        /** Necessario perché il touch non “tagli” l’inerzia rispetto allo scroll animato. */
         syncTouch: true,
-      });
+        lerp: 0.1,
+      };
+    }
+    try {
+      lenis = new LenisCtor(opts);
     } catch (e) {
       return null;
     }
@@ -535,6 +553,7 @@
 
   function boot() {
     document.documentElement.classList.add('cinematic-scroll');
+    document.body.classList.add('cinematic-scroll');
 
     var header = document.getElementById('site-header');
     if (header) header.classList.add('page-cinematic-header');
@@ -543,6 +562,12 @@
 
     if (!window.gsap || !window.ScrollTrigger) return;
     gsap.registerPlugin(ScrollTrigger);
+
+    if (typeof ScrollTrigger.normalizeScroll === 'function' && coarse) {
+      try {
+        ScrollTrigger.normalizeScroll(false);
+      } catch (e) {}
+    }
 
     initLenis();
 

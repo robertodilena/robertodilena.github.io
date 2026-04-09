@@ -330,6 +330,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: auto;
+  /** Lo scroll passa al documento; niente cattura del gesture sulla sola foto. */
+  touch-action: pan-y;
 }
 
 .cine-hero__portrait-img.is-concealed {
@@ -580,11 +583,11 @@
   margin: 0;
 }
 
-/* html.cinematic-scroll disattiva scroll-behavior: smooth globale (conflitto con Lenis) */
-html.cinematic-scroll {
+/* html/body.cinematic-scroll: scroll nativo + pan verticale (mobile / Lenis) */
+html.cinematic-scroll,
+body.cinematic-scroll {
   scroll-behavior: auto !important;
-  /** Lascia al browser l’inerzia verticale su mobile (pan-y) senza bloccare lo slancio. */
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-y !important;
 }
 
 .cine-projects__stack-wrap {
