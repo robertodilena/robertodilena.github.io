@@ -15,14 +15,14 @@
   --cine-gap-below-header: 0;
   --cine-hero-top-extra: 4vh;
   /**
-   * Sticky stack: netto +5vh a step (20 - 15). Compatto, meno scroll dispersivo.
+   * Sticky stack: netto +5svh a step (20 - 15). svh = small viewport (barra indirizzi visibile), stabile su mobile.
    */
-  --cine-stack-scroll: 20vh;
-  --cine-stack-overlap: -15vh;
+  --cine-stack-scroll: 20svh;
+  --cine-stack-overlap: -15svh;
   /**
    * Ultima card: stessa corsia di scroll delle altre, così il documento è abbastanza lungo
    * per completare lo scrub GSAP prima che finisca la pagina (stack sopra la penultima).
-   * Opzionale: calc(var(--cine-stack-scroll) + 5vh) per più respiro prima del footer.
+   * Opzionale: calc(var(--cine-stack-scroll) + 5svh) per più respiro prima del footer.
    */
   --cine-stack-last-pad: var(--cine-stack-scroll);
   --font-cine: 'Inter', system-ui, sans-serif;
@@ -612,7 +612,7 @@ body.cinematic-scroll {
   --glow-x: 50%;
   --glow-y: 40%;
   position: sticky;
-  top: max(10vh, 5rem);
+  top: max(10svh, 5rem);
   margin-bottom: var(--cine-stack-overlap);
   padding-bottom: var(--cine-stack-scroll);
   transform-style: preserve-3d;

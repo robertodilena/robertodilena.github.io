@@ -256,12 +256,12 @@
     });
   }
 
-  /** Converte --cine-stack-scroll (es. 20vh) in px per allineare la corsia GSAP al CSS. */
+  /** Fallback: converte --cine-stack-scroll (svh/vh) in px usando altezza viewport stabile se disponibile. */
   function stackScrollRunwayPx() {
-    var h = window.innerHeight;
+    var h = projectsStableViewportH != null ? projectsStableViewportH : window.innerHeight;
     var raw = getComputedStyle(document.documentElement).getPropertyValue('--cine-stack-scroll').trim();
     var n = parseFloat(raw);
-    if (raw.indexOf('vh') !== -1 && !isNaN(n)) {
+    if ((raw.indexOf('vh') !== -1 || raw.indexOf('svh') !== -1) && !isNaN(n)) {
       return (n / 100) * h;
     }
     if (raw.indexOf('px') !== -1 && !isNaN(n)) {
@@ -276,6 +276,9 @@
     var cards = gsap.utils.toArray('.cine-project-card');
     var surfaces = gsap.utils.toArray('.cine-project-card__surface');
     if (!cards.length || !surfaces.length) return;
+
+    var wrap = document.querySelector('.cine-projects__stack-wrap');
+    var stableH = projectsStableViewportH != null ? projectsStableViewportH : window.innerHeight;
 
     cards.forEach(function (card, i) {
       card.style.setProperty('--z', String(100 + i * 10));
@@ -305,13 +308,19 @@
             trigger: card,
             start: 'top 96%',
             /**
-             * Stessa distanza di scroll della corsia CSS (--cine-stack-scroll, uguale a last-pad).
-             * '+=N' = N px di scroll dopo lo start → scrub allineato al padding sticky.
+             * Corsia da altezza reale del wrap (affidabile su mobile) meno viewport fissata all’avvio;
+             * divisa per il numero di card così ogni scrub copre uno step dello stack.
              */
             end: function () {
-              return '+=' + stackScrollRunwayPx();
+              if (!wrap) {
+                return '+=' + stackScrollRunwayPx();
+              }
+              var total = Math.max(0, wrap.offsetHeight - stableH);
+              var step = surfaces.length > 0 ? total / surfaces.length : total;
+              return '+=' + step;
             },
             scrub: SCRUB,
+            anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         }
@@ -357,9 +366,15 @@
   }
 
   var projectsInited = false;
+  /** Fissata al primo progetti-ready: evita salti quando innerHeight cambia (barra indirizzi mobile). */
+  var projectsStableViewportH = null;
+
   function onProjectsReady() {
     if (projectsInited) return;
     projectsInited = true;
+    if (projectsStableViewportH === null) {
+      projectsStableViewportH = window.innerHeight;
+    }
     initProjectStack();
     trimProjectsStackTail();
     setTimeout(function () {
