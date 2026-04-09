@@ -450,22 +450,18 @@
 
       var heroEl = document.getElementById('project-hero-wrap');
       if (heroEl && !heroEl.hidden) {
-        gsap.fromTo(
-          heroEl,
-          { opacity: 0, scale: 0.96, force3D: true },
-          {
-            opacity: 1,
-            scale: 1,
-            ease: 'none',
-            force3D: true,
-            scrollTrigger: {
-              trigger: heroEl,
-              start: 'top 88%',
-              end: 'top 50%',
-              scrub: SCRUB,
-            },
-          }
-        );
+        /**
+         * Niente scrub su opacity qui: con start/end la hero restava a opacity 0 in cima alla pagina
+         * finché non si scrollava (foto “invisibile”). Entrata breve al caricamento + solo parallax sull’img.
+         */
+        gsap.set(heroEl, { opacity: 1, scale: 1, force3D: true });
+        gsap.from(heroEl, {
+          opacity: 0,
+          scale: 0.98,
+          duration: 0.5,
+          ease: 'power2.out',
+          force3D: true,
+        });
         var img = heroEl.querySelector('img');
         if (img) {
           gsap.to(img, {

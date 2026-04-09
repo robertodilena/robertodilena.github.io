@@ -95,7 +95,9 @@ window.PORTFOLIO_PROJECTS = {
         'External API Integration (Ticketing & Loyalty)',
       ],
       heroImage:
-        'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1400&q=80',
+        'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1600&q=80',
+      heroImageAlt:
+        'Pallone da calcio su prato verde, soggetto centrale e leggibile nel banner.',
       metaDescription:
         'Scenario: Gestione dei dati e dei titoli di accesso per una società calcistica professionistica con decine di migliaia di tifosi.',
       featured: true,
