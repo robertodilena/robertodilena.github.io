@@ -99,11 +99,21 @@
         gestureOrientation: 'vertical',
         smoothWheel: true,
         syncTouch: true,
-        syncTouchLerp: 0.12,
+        /** Più basso = più aderente al dito, meno esitazione al cambio direzione. */
+        syncTouchLerp: 0.08,
         touchMultiplier: 1.5,
         wheelMultiplier: 1.2,
         lerp: 0.12,
         touchInertiaMultiplier: 45,
+        /** Lenis 1.1: riduce overscroll interno; il bounce del browser è mitigato anche via CSS. */
+        overscroll: false,
+        /**
+         * Lenis accetta solo `prevent` come funzione (el)=>boolean; true letterale è ignorato.
+         * Restituire false = nessun elemento escluso dal virtual scroll, così Lenis può usare preventDefault.
+         */
+        prevent: function () {
+          return false;
+        },
       };
     } else {
       opts = {
@@ -570,6 +580,7 @@
     }
 
     initLenis();
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
 
     var mode = document.body.getAttribute('data-cinematic') || 'home';
     if (mode === 'project') {

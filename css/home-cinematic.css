@@ -588,6 +588,8 @@ html.cinematic-scroll,
 body.cinematic-scroll {
   scroll-behavior: auto !important;
   touch-action: pan-y !important;
+  /** Evita pull-to-refresh / bounce che “rubano” il primo frame al cambio direzione. */
+  overscroll-behavior-y: none !important;
 }
 
 .cine-projects__stack-wrap {
