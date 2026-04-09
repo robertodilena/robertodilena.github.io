@@ -99,13 +99,18 @@
         gestureOrientation: 'vertical',
         smoothWheel: true,
         syncTouch: true,
-        /** Più basso = più aderente al dito, meno esitazione al cambio direzione. */
-        syncTouchLerp: 0.08,
-        touchMultiplier: 1.5,
+        /** Più alto = più aderente al dito; 0.1 riduce il “recupero” che sembra accelerazione. */
+        syncTouchLerp: 0.1,
+        /** 1.5 amplificava troppo il gesto; vicino a 1 = rapporto 1:1 col movimento. */
+        touchMultiplier: 1,
         wheelMultiplier: 1.2,
-        lerp: 0.12,
-        touchInertiaMultiplier: 45,
-        /** Lenis 1.1: riduce overscroll interno; il bounce del browser è mitigato anche via CSS. */
+        lerp: 0.1,
+        /** Default Lenis (35); 45 dava troppa inerzia al rilascio (effetto fionda). */
+        touchInertiaMultiplier: 35,
+        /**
+         * Lenis 1.1.x: nessun velocityMax nel costruttore (opzione ignorata se passata).
+         * overscroll: riduce overscroll interno; bounce browser mitigato anche via CSS.
+         */
         overscroll: false,
         /**
          * Lenis accetta solo `prevent` come funzione (el)=>boolean; true letterale è ignorato.
