@@ -98,7 +98,7 @@
           tagsRoot.innerHTML = '';
           (p.tags || []).forEach(function (t) {
             var s = document.createElement('span');
-            s.className = 'tag';
+            s.className = 'tag badge';
             s.textContent = t;
             tagsRoot.appendChild(s);
           });

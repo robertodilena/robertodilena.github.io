@@ -4,7 +4,7 @@
 
   function tagEl(text) {
     var s = document.createElement('span');
-    s.className = 'tag';
+    s.className = 'tag badge';
     s.textContent = text;
     return s;
   }
