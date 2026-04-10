@@ -277,9 +277,6 @@
     var surfaces = gsap.utils.toArray('.cine-project-card__surface');
     if (!cards.length || !surfaces.length) return;
 
-    var wrap = document.querySelector('.cine-projects__stack-wrap');
-    var stableH = projectsStableViewportH != null ? projectsStableViewportH : window.innerHeight;
-
     cards.forEach(function (card, i) {
       card.style.setProperty('--z', String(100 + i * 10));
     });
@@ -311,13 +308,9 @@
              * Corsia da altezza reale del wrap (affidabile su mobile) meno viewport fissata all’avvio;
              * divisa per il numero di card così ogni scrub copre uno step dello stack.
              */
+            /** Allineato a --cine-stack-scroll (padding sticky): stesso passo per ogni card inclusa l’ultima. */
             end: function () {
-              if (!wrap) {
-                return '+=' + stackScrollRunwayPx();
-              }
-              var total = Math.max(0, wrap.offsetHeight - stableH);
-              var step = surfaces.length > 0 ? total / surfaces.length : total;
-              return '+=' + step;
+              return '+=' + stackScrollRunwayPx();
             },
             scrub: SCRUB,
             anticipatePin: 1,

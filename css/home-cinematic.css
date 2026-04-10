@@ -22,12 +22,6 @@
    */
   --cine-stack-scroll: 20svh;
   --cine-stack-overlap: -15svh;
-  /**
-   * Ultima card: stessa corsia di scroll delle altre, così il documento è abbastanza lungo
-   * per completare lo scrub GSAP prima che finisca la pagina (stack sopra la penultima).
-   * Opzionale: calc(var(--cine-stack-scroll) + 5svh) per più respiro in fondo alla sezione.
-   */
-  --cine-stack-last-pad: var(--cine-stack-scroll);
   --font-cine: 'Inter', system-ui, sans-serif;
 }
 
@@ -593,7 +587,11 @@ body.cinematic-scroll {
   position: relative;
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  /**
+   * Senza footer: spazio sotto l’ultima card = corsia scroll + “tiro” overlap (|overlap|),
+   * così l’ultima si comporta come le altre rispetto alla penultima a fine scroll.
+   */
+  padding: 0 1.5rem calc(var(--cine-stack-scroll) + (-1 * var(--cine-stack-overlap)));
   perspective: 1400px;
   perspective-origin: 50% 30%;
 }
@@ -617,11 +615,6 @@ body.cinematic-scroll {
   transform: translateZ(0);
   backface-visibility: hidden;
   z-index: var(--z, 1);
-}
-
-.cine-project-card:last-child {
-  margin-bottom: 0;
-  padding-bottom: var(--cine-stack-last-pad);
 }
 
 .cine-project-card__surface {
