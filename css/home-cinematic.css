@@ -8,7 +8,10 @@
   --cine-neon: rgba(0, 180, 255, 0.45);
   --cine-neon-soft: rgba(0, 120, 212, 0.12);
   --cine-text: #f4f4f5;
-  --cine-muted: rgba(161, 161, 170, 0.95);
+  /** Più chiaro + pesi 350/400 al posto di 200: migliore leggibilità senza “bold”. */
+  --cine-muted: rgba(196, 196, 204, 0.98);
+  --cine-weight-muted-body: 400;
+  --cine-weight-muted-soft: 350;
   --cine-max: 1120px;
   --cine-header-h: 72px;
   /** Extra respiro sotto l’header sticky (hero / interne). */
@@ -209,7 +212,7 @@
 
 .cine-hero__eyebrow {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-soft);
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   letter-spacing: 0.35em;
   text-transform: uppercase;
@@ -246,7 +249,7 @@
 
 .cine-hero__role-sub {
   display: block;
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   font-size: 0.95em;
   color: var(--cine-muted);
   margin-top: 0.5rem;
@@ -254,7 +257,7 @@
 
 .cine-hero__focus {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   font-size: clamp(0.95rem, 1.4vw, 1.05rem);
   line-height: 1.65;
   color: var(--cine-muted);
@@ -380,7 +383,7 @@
 
 .cine-section__prose {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   font-size: clamp(1rem, 1.3vw, 1.08rem);
   line-height: 1.75;
   color: var(--cine-muted);
@@ -503,7 +506,7 @@
 }
 
 .cine-cert__exam {
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   font-size: 0.95rem;
   color: var(--cine-muted);
   margin: 0 0 1rem;
@@ -518,6 +521,7 @@
 
 .cine-cert__meta dt {
   font-size: 0.7rem;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--cine-muted);
@@ -569,7 +573,7 @@
 
 .cine-projects__lead {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   font-size: 1.05rem;
   color: var(--cine-muted);
   max-width: 48ch;
@@ -684,7 +688,7 @@ body.cinematic-scroll {
 
 .cine-project-card__index {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-soft);
   font-size: 0.75rem;
   letter-spacing: 0.35em;
   color: rgba(0, 180, 255, 0.55);
@@ -708,7 +712,7 @@ body.cinematic-scroll {
 
 .cine-project-card__summary {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--cine-muted);
@@ -771,7 +775,7 @@ body.cinematic-scroll {
 
 .cine-projects__empty {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   color: var(--cine-muted);
   text-align: center;
   padding: 3rem 1rem;
@@ -811,6 +815,7 @@ body.cinematic-scroll {
 .page-cinematic .cine-breadcrumb {
   font-family: var(--font-cine);
   font-size: 0.82rem;
+  font-weight: var(--cine-weight-muted-body);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin: 0 0 1.75rem;
@@ -907,6 +912,7 @@ body.cinematic-scroll {
 .page-cinematic .cine-project-detail__body-wrap .prose p,
 .page-cinematic .cine-project-detail__body-wrap .prose li {
   color: var(--cine-muted);
+  font-weight: var(--cine-weight-muted-body);
 }
 
 .page-cinematic .cine-project-detail__body-wrap .prose strong {
@@ -952,7 +958,7 @@ body.cinematic-scroll {
 
 .page-cinematic .cine-project-detail--missing .lead {
   font-family: var(--font-cine);
-  font-weight: 200;
+  font-weight: var(--cine-weight-muted-body);
   color: var(--cine-muted);
   max-width: 52ch;
   margin: 0 0 1.25rem;
