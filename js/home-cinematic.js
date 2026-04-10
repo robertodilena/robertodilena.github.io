@@ -330,41 +330,6 @@
     ScrollTrigger.refresh();
   }
 
-  /**
-   * Rimuove solo il vuoto *oltre* la chiusura naturale stack + footer.
-   * Non riduce l’altezza necessaria alle card (padding incluso): si agisce sul margine della sezione.
-   */
-  function trimProjectsStackTail() {
-    var proj = document.getElementById('progetti');
-    var stack = document.querySelector('.cine-projects__stack');
-    var footer = document.getElementById('site-footer');
-    if (!proj || !stack || !footer) return;
-    var cards = stack.querySelectorAll('.cine-project-card');
-    if (!cards.length) return;
-
-    function apply() {
-      var last = cards[cards.length - 1];
-      var lastBottom = last.getBoundingClientRect().bottom + window.pageYOffset;
-      var footerTop = footer.getBoundingClientRect().top + window.pageYOffset;
-      var gap = footerTop - lastBottom;
-      /** Respiro minimo sotto l’ultima card prima del bordo footer (non “mangiare” la corsia di scroll). */
-      var minFooterGap = 14;
-      if (gap <= minFooterGap + 2) {
-        proj.style.marginBottom = '';
-      } else {
-        var pull = gap - minFooterGap;
-        /** Evita tagli eccessivi se il layout non è ancora stabile. */
-        var safeCap = window.innerHeight * 0.85;
-        proj.style.marginBottom = -Math.round(Math.min(pull, safeCap)) + 'px';
-      }
-      if (window.ScrollTrigger) ScrollTrigger.refresh();
-    }
-
-    requestAnimationFrame(function () {
-      requestAnimationFrame(apply);
-    });
-  }
-
   var projectsInited = false;
   /** Fissata al primo progetti-ready: evita salti quando innerHeight cambia (barra indirizzi mobile). */
   var projectsStableViewportH = null;
@@ -376,10 +341,6 @@
       projectsStableViewportH = window.innerHeight;
     }
     initProjectStack();
-    trimProjectsStackTail();
-    setTimeout(function () {
-      trimProjectsStackTail();
-    }, 150);
   }
 
   var projectDetailListenerAttached = false;
@@ -596,15 +557,6 @@
         onProjectsReady();
       }
 
-      var trimResizeT;
-      function onTrimResize() {
-        clearTimeout(trimResizeT);
-        trimResizeT = setTimeout(trimProjectsStackTail, 100);
-      }
-      window.addEventListener('resize', onTrimResize, { passive: true });
-      window.addEventListener('load', function () {
-        trimProjectsStackTail();
-      });
     }
 
     ScrollTrigger.refresh();

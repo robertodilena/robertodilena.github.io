@@ -22,7 +22,7 @@
   /**
    * Ultima card: stessa corsia di scroll delle altre, così il documento è abbastanza lungo
    * per completare lo scrub GSAP prima che finisca la pagina (stack sopra la penultima).
-   * Opzionale: calc(var(--cine-stack-scroll) + 5svh) per più respiro prima del footer.
+   * Opzionale: calc(var(--cine-stack-scroll) + 5svh) per più respiro in fondo alla sezione.
    */
   --cine-stack-last-pad: var(--cine-stack-scroll);
   --font-cine: 'Inter', system-ui, sans-serif;
@@ -181,13 +181,6 @@
 .page-cinematic #site-header .nav-links a.is-active {
   color: var(--cine-text);
   border-bottom-color: rgba(0, 180, 255, 0.7);
-}
-
-.page-cinematic #site-footer {
-  background: var(--cine-bg);
-  border-top-color: rgba(255, 255, 255, 0.06);
-  margin-top: 0;
-  padding: 1rem 1.5rem 1.25rem;
 }
 
 /* --- Hero --- */

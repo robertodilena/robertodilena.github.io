@@ -1,4 +1,4 @@
-/** Header/footer condivisi: iniettati dopo il parse del DOM. */
+/** Header condiviso: iniettato dopo il parse del DOM. */
 (function () {
   'use strict';
 
@@ -49,23 +49,6 @@
     );
   }
 
-  function footerHTML() {
-    return (
-      '<div class="footer-inner">' +
-      '<p class="footer-copy">© ' +
-      new Date().getFullYear() +
-      ' Roberto Di Lena</p>' +
-      '<div class="footer-social">' +
-      '<a class="footer-linkedin" href="' +
-      LINKEDIN +
-      '" rel="noopener noreferrer" target="_blank" aria-label="Profilo LinkedIn">' +
-      LINKEDIN_ICON +
-      '</a>' +
-      '</div>' +
-      '</div>'
-    );
-  }
-
   function setActiveNav() {
     var path = window.location.pathname || '';
     var key = 'home';
@@ -82,9 +65,7 @@
     inject: function () {
       var prefix = basePrefix();
       var header = document.getElementById('site-header');
-      var footer = document.getElementById('site-footer');
       if (header) header.innerHTML = navHTML(prefix);
-      if (footer) footer.innerHTML = footerHTML();
       setActiveNav();
     },
   };
