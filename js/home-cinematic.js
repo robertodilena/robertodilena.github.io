@@ -452,7 +452,7 @@
       if (heroEl && !heroEl.hidden) {
         /**
          * Niente scrub su opacity qui: con start/end la hero restava a opacity 0 in cima alla pagina
-         * finché non si scrollava (foto “invisibile”). Entrata breve al caricamento + solo parallax sull’img.
+         * finché non si scrollava (foto “invisibile”). Entrata breve al caricamento.
          */
         gsap.set(heroEl, { opacity: 1, scale: 1, force3D: true });
         gsap.from(heroEl, {
@@ -462,20 +462,6 @@
           ease: 'power2.out',
           force3D: true,
         });
-        var img = heroEl.querySelector('img');
-        if (img) {
-          gsap.to(img, {
-            yPercent: -6,
-            ease: 'none',
-            force3D: true,
-            scrollTrigger: {
-              trigger: heroEl,
-              scrub: SCRUB,
-              start: 'top bottom',
-              end: 'bottom top',
-            },
-          });
-        }
       }
 
       var titleBlock = document.querySelector('.cine-project-detail__title-block');

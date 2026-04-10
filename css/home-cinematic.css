@@ -746,6 +746,20 @@ body.cinematic-scroll {
   padding-top: 1rem;
 }
 
+/** Link a tutta card: `.cine-project-card__hit` (vedi home-featured.js). */
+.cine-project-card__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  text-decoration: none;
+}
+
+.cine-project-card__hit:focus-visible {
+  outline: 2px solid rgba(0, 200, 255, 0.9);
+  outline-offset: 3px;
+}
+
 .cine-project-card__link {
   font-family: var(--font-cine);
   font-weight: 600;
@@ -755,9 +769,10 @@ body.cinematic-scroll {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  pointer-events: none;
 }
 
-.cine-project-card__link:hover {
+.cine-project-card:hover .cine-project-card__link {
   color: #fff;
 }
 
@@ -835,7 +850,7 @@ body.cinematic-scroll {
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: linear-gradient(165deg, rgba(12, 16, 24, 0.55) 0%, rgba(0, 0, 0, 0.92) 100%);
+  background: #070a10;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
 }
 
@@ -843,8 +858,8 @@ body.cinematic-scroll {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   display: block;
-  will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
 }

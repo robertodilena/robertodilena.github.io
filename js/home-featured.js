@@ -54,22 +54,29 @@
 
       var footer = document.createElement('div');
       footer.className = 'cine-project-card__footer';
-      var a = document.createElement('a');
-      a.className = 'cine-project-card__link';
-      a.href = 'projects/project.html?id=' + encodeURIComponent(p.id);
-      a.setAttribute('data-cursor-hover', '');
-      a.textContent = 'Apri la scheda →';
+      var cta = document.createElement('span');
+      cta.className = 'cine-project-card__link';
+      cta.setAttribute('aria-hidden', 'true');
+      cta.textContent = 'Apri la scheda →';
+
+      var projectHref = 'projects/project.html?id=' + encodeURIComponent(p.id);
+      var hit = document.createElement('a');
+      hit.className = 'cine-project-card__hit';
+      hit.href = projectHref;
+      hit.setAttribute('data-cursor-hover', '');
+      hit.setAttribute('aria-label', 'Apri la scheda: ' + (p.title || 'Progetto'));
 
       inner.appendChild(idx);
       inner.appendChild(icon);
       inner.appendChild(h3);
       inner.appendChild(para);
       if (tags.childNodes.length) inner.appendChild(tags);
-      footer.appendChild(a);
+      footer.appendChild(cta);
       inner.appendChild(footer);
 
       surface.appendChild(glow);
       surface.appendChild(inner);
+      surface.appendChild(hit);
       article.appendChild(surface);
       container.appendChild(article);
     });
