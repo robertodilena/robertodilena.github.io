@@ -31,7 +31,7 @@
     'Stack',
   ];
 
-  function appendBodyParagraph(container, paragraph) {
+  function splitBodyLabel(paragraph) {
     var text = typeof paragraph === 'string' ? paragraph : '';
     var i;
     var lab;
@@ -40,19 +40,98 @@
       lab = BODY_LABELS[i];
       prefix = lab + ':';
       if (text.indexOf(prefix) === 0) {
-        var rest = text.slice(prefix.length).replace(/^\s*/, '');
-        var p = document.createElement('p');
-        var strong = document.createElement('strong');
-        strong.textContent = lab;
-        p.appendChild(strong);
-        p.appendChild(document.createTextNode(': ' + rest));
-        container.appendChild(p);
-        return;
+        return {
+          label: lab,
+          text: text.slice(prefix.length).replace(/^\s*/, ''),
+        };
       }
     }
-    var el = document.createElement('p');
-    el.textContent = text;
-    container.appendChild(el);
+    return {
+      label: '',
+      text: text,
+    };
+  }
+
+  function appendDetailCard(container, title, text, modifier) {
+    if (!container || !text) return;
+    var article = document.createElement('article');
+    article.className = 'cine-project-detail__card';
+    if (modifier) article.className += ' ' + modifier;
+
+    var h = document.createElement('h3');
+    h.className = 'cine-project-detail__card-title';
+    h.textContent = title;
+    article.appendChild(h);
+
+    var p = document.createElement('p');
+    p.className = 'cine-project-detail__card-copy';
+    p.textContent = text;
+    article.appendChild(p);
+
+    container.appendChild(article);
+  }
+
+  function appendUnifiedStoryCard(container, solution, challenge, result) {
+    if (!container) return;
+    var article = document.createElement('article');
+    article.className = 'cine-project-detail__card cine-project-detail__card--story';
+
+    function addBlock(title, text) {
+      if (!text) return;
+      var block = document.createElement('section');
+      block.className = 'cine-project-detail__story-block';
+
+      var h = document.createElement('h3');
+      h.className = 'cine-project-detail__card-title';
+      h.textContent = title;
+      block.appendChild(h);
+
+      var p = document.createElement('p');
+      p.className = 'cine-project-detail__card-copy';
+      p.textContent = text;
+      block.appendChild(p);
+      article.appendChild(block);
+    }
+
+    addBlock('Soluzione', solution);
+    addBlock('Sfida Tecnica', challenge);
+    addBlock('Risultato', result);
+    container.appendChild(article);
+  }
+
+  function extractSections(project) {
+    var sections = {};
+    var intro = [];
+    var paragraphs = project && Array.isArray(project.body) ? project.body : [];
+    (paragraphs || []).forEach(function (paragraph) {
+      var parsed = splitBodyLabel(paragraph);
+      if (!parsed.text) return;
+      if (!parsed.label) {
+        intro.push(parsed.text);
+        return;
+      }
+      sections[parsed.label] = parsed.text;
+    });
+    if (intro.length && !sections.Scenario) {
+      sections.Scenario = intro.join(' ');
+    }
+    if (!sections.Focus && project.summary) {
+      sections.Focus = project.summary;
+    }
+    return sections;
+  }
+
+  function renderBodyCards(container, project) {
+    var sections = extractSections(project);
+    var shortScenario = sections.Scenario || project.metaDescription || '';
+    var shortFocus = sections.Focus || project.summary || '';
+    var solution = sections.Soluzione || '';
+    var challenge = sections['Sfida Tecnica'] || '';
+    var result = sections.Risultato || '';
+
+    appendDetailCard(container, 'Scenario', shortScenario, 'cine-project-detail__card--half');
+    appendDetailCard(container, 'Focus', shortFocus, 'cine-project-detail__card--half');
+    appendUnifiedStoryCard(container, solution, challenge, result);
   }
 
   function init() {
@@ -133,9 +212,7 @@
         var bodyEl = document.getElementById('project-body');
         if (bodyEl) {
           bodyEl.innerHTML = '';
-          (p.body || []).forEach(function (paragraph) {
-            appendBodyParagraph(bodyEl, paragraph);
-          });
+          renderBodyCards(bodyEl, p);
         }
 
         notifyReady({ missing: false, id: id });

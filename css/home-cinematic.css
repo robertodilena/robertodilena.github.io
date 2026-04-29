@@ -892,30 +892,73 @@ body.cinematic-scroll {
   margin: 0 0 1.75rem;
 }
 
-.page-cinematic .cine-project-detail__body-wrap {
-  margin: 0 auto 2.5rem;
-  width: 100%;
-  max-width: 65ch;
+.page-cinematic .cine-project-detail__content-grid {
+  display: block;
+  margin: 0 0 2.5rem;
 }
 
-.page-cinematic .cine-project-detail__body-wrap .prose {
-  max-width: none;
-}
-
-.page-cinematic .cine-project-detail__body-wrap .prose p,
-.page-cinematic .cine-project-detail__body-wrap .prose li {
-  color: var(--cine-muted);
-  font-weight: var(--cine-weight-muted-body);
-}
-
-.page-cinematic .cine-project-detail__body-wrap .prose strong {
-  color: var(--cine-text);
-}
-
-.page-cinematic .cine-project-detail__body-wrap .prose h2 {
+.page-cinematic .cine-project-detail__section-title {
+  margin: 0 0 0.95rem;
   color: var(--cine-text);
   font-family: var(--font-cine);
-  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.page-cinematic .cine-project-detail__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.page-cinematic .cine-project-detail__card {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(8, 18, 34, 0.9), rgba(5, 11, 20, 0.88));
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  padding: 1rem 1.05rem;
+}
+
+.page-cinematic .cine-project-detail__card--half {
+  grid-column: span 1;
+}
+
+.page-cinematic .cine-project-detail__card--story {
+  grid-column: 1 / -1;
+  border-color: rgba(0, 180, 255, 0.32);
+  background: linear-gradient(180deg, rgba(10, 34, 66, 0.92), rgba(6, 16, 32, 0.9));
+}
+
+.page-cinematic .cine-project-detail__story-block + .cine-project-detail__story-block {
+  margin-top: 0.95rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.page-cinematic .cine-project-detail__card-title {
+  margin: 0 0 0.45rem;
+  color: var(--cine-text);
+  font-family: var(--font-cine);
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+}
+
+.page-cinematic .cine-project-detail__card-copy {
+  margin: 0;
+  color: var(--cine-muted);
+  font-weight: var(--cine-weight-muted-body);
+  line-height: 1.6;
+}
+
+@media (max-width: 920px) {
+  .page-cinematic .cine-project-detail__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .page-cinematic .cine-project-detail__card--half,
+  .page-cinematic .cine-project-detail__card--story {
+    grid-column: 1 / -1;
+  }
 }
 
 .page-cinematic .cine-project-detail__back {
@@ -966,3 +1009,4 @@ body.cinematic-scroll {
 .page-cinematic .cine-project-detail--missing a:hover {
   color: #fff;
 }
+
