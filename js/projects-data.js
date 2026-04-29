@@ -25,7 +25,7 @@ window.PORTFOLIO_PROJECTS = {
       body: [
         'Focus: Industrial IoT, Data Integrity e On-premises Integration',
         'Scenario: Monitoraggio e gestione dei flussi di materiale per impianti di produzione biogas distribuiti. La necessità era centralizzare dati fisici provenienti dal campo in un ambiente cloud per l\'analisi dei costi e della produzione.',
-        'Sfida Tecnica: Realizzare un ponte sicuro e bidirezionale tra i PLC di campo, che operano su reti locali, e il Dataverse. Era fondamentale garantire che le quantità di biomasse (in ingresso nelle trincee e in immissione nelle tramogge) fossero sincronizzate senza latenze critiche o perdita di pacchetti.',
+        'Sfida Tecnica: Realizzare un ponte sicuro e bidirezionale tra i PLC di campo, che operano su reti locali, e il Dataverse. Era fondamentale garantire che le quantità di biomasse (in ingresso nelle trincee e in immissione nelle tramogge) fossero sincronizzate senza latenze critiche',
         'Soluzione: Progettazione di un\'architettura basata su On-premises Data Gateway. Ho sviluppato flussi dati che interrogano i database locali collegati ai PLC, orchestrando l\'ingestione dei dati verso il cloud tramite Power Automate. La soluzione gestisce la manutenzione degli impianti e il tracciamento dei costi dei fornitori, trasformando segnali industriali in record di business pronti per la fatturazione.',
         'Risultato: Eliminazione completa dell\'inserimento manuale su carta o Excel, azzeramento dell\'errore umano nella trascrizione delle pesate e monitoraggio in tempo reale dei KPI di efficienza energetica degli impianti.',
         'Stack: Dynamics 365, Power Automate, On-premises Data Gateway, Dataverse, PLC Logic Integration.',
@@ -37,7 +37,7 @@ window.PORTFOLIO_PROJECTS = {
       summary: 'Focus: Process Reengineering e Integrazione ERP Legacy',
       icon: '🌐',
       tags: [
-        'Power Apps (Model-Driven)',
+        'Power Apps',
         'Power Automate',
         'Dynamics NAV (Navision)',
         'Dataverse',
@@ -64,7 +64,7 @@ window.PORTFOLIO_PROJECTS = {
       icon: '🏢',
       tags: [
         'Dynamics 365 Sales',
-        'JavaScript (Client-side scripting)',
+        'JavaScript',
         'Advanced Data Modeling',
         'Power Platform',
       ],
@@ -80,7 +80,7 @@ window.PORTFOLIO_PROJECTS = {
         'Sfida Tecnica: Estendere Dynamics 365 Sales ben oltre la semplice configurazione, implementando logiche di business condizionali profonde e un\'interfaccia utente ottimizzata per flussi approvativi multi-livello.',
         'Soluzione: Sviluppo di una soluzione customizzata tramite JavaScript Web Resources per la manipolazione dinamica della UI e l\'implementazione di Business Rules avanzate. Ho progettato un modello dati relazionale su Dataverse ottimizzato per la manutenibilità, riducendo al minimo il debito tecnico e garantendo la scalabilità in caso di aggiornamenti della piattaforma Microsoft.',
         'Risultato: Aumento significativo dell\'adozione dello strumento da parte della forza vendita grazie a un\'interfaccia cucita sui processi reali e non viceversa. Riduzione del "time-to-close" delle trattative grazie all\'automazione dei flussi approvativi.',
-        'Stack: Dynamics 365 Sales, JavaScript (Client-side scripting), Advanced Data Modeling, Power Platform.',
+        'Stack: Dynamics 365 Sales, JavaScript, Advanced Data Modeling, Power Platform.',
       ],
     },
     {
@@ -89,7 +89,7 @@ window.PORTFOLIO_PROJECTS = {
       summary: 'Focus: Master Data Management e Orchestrazione SSO',
       icon: '⚽',
       tags: [
-        'Dataverse (Master Data Hub)',
+        'Dataverse',
         'Power Automate',
         'SSO Integration',
         'External API Integration (Ticketing & Loyalty)',
@@ -106,15 +106,15 @@ window.PORTFOLIO_PROJECTS = {
         'Focus: Master Data Management e Orchestrazione SSO',
         'Scenario: Gestione dei dati e dei titoli di accesso per una società calcistica professionistica con decine di migliaia di tifosi.',
         'Sfida Tecnica: Far dialogare sistemi di ticketing esterni, piattaforme di Fidelity Card e portali web proprietari, utilizzando il Dataverse come "Centro Stella" dell\'intera architettura.',
-        'Soluzione: Architettura incentrata sulla sincronizzazione di più servizi. Quelli ticketing e fidelity scrivono le anagrafiche e i titoli di accesso sul Dataverse tramite Web Services dedicati. Ho configurato il flusso in modo che il portale web, tramite protocolli SSO (Single Sign-On), riconosca l\'utente e interroghi il Dataverse per mostrare i dati corretti aggiornati. Power Automate agisce da orchestratore, gestendo i conflitti di sincronizzazione e la pulizia dei dati.',
+        'Soluzione: Architettura incentrata sulla sincronizzazione di più servizi. Quelli ticketing e fidelity scrivono le anagrafiche e i titoli di accesso sul Dataverse tramite Web Services dedicati. Ho configurato il flusso in modo che il portale web, tramite protocolli di Single Sign-On, riconosca l\'utente e interroghi il Dataverse per mostrare i dati corretti aggiornati. Power Automate agisce da orchestratore, gestendo i conflitti di sincronizzazione e la pulizia dei dati.',
         'Risultato: Visione profonda e completa del tifoso. L\'utente può accedere a tutti i servizi della società con un\'unica identità, mentre il club ha il controllo totale sui dati di accesso e le preferenze di acquisto in tempo reale.',
-        'Stack: Dataverse (Master Data Hub), Power Automate, SSO Integration, External API Integration (Ticketing & Loyalty).',
+        'Stack: Dataverse, Power Automate, SSO Integration, External API Integration (Ticketing & Loyalty).',
       ],
     },
     {
       id: 'fintech-crm-bancario-alte-prestazioni',
       title: 'Fintech: CRM Bancario ad Alte Prestazioni',
-      summary: 'Focus: Real-time Data Fetching e Integrazione Fonia (IVR)',
+      summary: 'Focus: Real-time Data Fetching e Integrazione fonia (IVR)',
       icon: '🏦',
       tags: [
         'Dynamics 365 Customer Service',
